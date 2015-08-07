@@ -1,6 +1,6 @@
 # template for "Stopwatch: The Game"
 # import the module
-import simplegui
+import simpleguitk as simplegui
 
 # define global variables
 time_general=0
