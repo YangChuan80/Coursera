@@ -96,12 +96,15 @@ Answer: 2410
 Answer: 1205
 
 ### 16. How many genes are specific to condition B?
+
 `$ comm -1 -3 a.genes b.genes | sort -u | wc -l`
 
 Answer: 1243
 
 ### 17. How many genes are in common to all three conditions?
-`$ comm -1 -2 a.genes b.genes > ab.genes
-$ comm -1 -2 ab.genes c.genes | wc -l`
+
+`$ comm -1 -2 a.genes b.genes > ab.genes`
+
+`$ comm -1 -2 ab.genes c.genes | wc -l``
 
 Answer: 1608
