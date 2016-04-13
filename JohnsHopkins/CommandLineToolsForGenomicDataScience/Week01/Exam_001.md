@@ -1,10 +1,14 @@
 # Week 1 Exam
 1. How many chromosomes are there in the genome?
-$ grep '>' apple.genome | wc -l
+
+`$ grep '>' apple.genome | wc -l`
+
 Answer: 3
 
 2. How many genes?
-$ cut -f1 apple.genes | sort -u | wc -l
+3. 
+`$ cut -f1 apple.genes | sort -u | wc -l`
+
 Answer: 5453
 
 3. How many transcript variants?
