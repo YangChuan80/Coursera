@@ -15,7 +15,7 @@
 
 `$ mkdir idx`
 
-`$ bowtie2-build wu_0.v7.fas idx/wu_0_idx`
+`$ **bowtie2-build wu_0.v7.fas idx/wu_0_idx**`
 
 ### 6. How many reads were in the original fastq file?
 
@@ -25,10 +25,11 @@
 
 `$ bowtie2 -p 4 -x idx/wu_0_idx -U wu_0_A_wgs.fastq -S out.full.sam`
 
-`
-147354 reads; of these:
+- Results: 
+    
+    147354 reads; of these:
 
-  147354 (100.00%) were unpaired; of these:
+    147354 (100.00%) were unpaired; of these:
 
     9635 (6.54%) aligned 0 times
 
@@ -36,19 +37,18 @@
 
     43939 (29.82%) aligned >1 times
 
-93.46% overall alignment rate
-
-`
+    93.46% overall alignment rate
 
 
 
 ### 8. How many matches (alignments) were reported with the local-match setting? Exclude lines in the file containing unmapped reads.
 
 `$ bowtie2 -p 4 -x idx/wu_0_idx -U wu_0_A_wgs.fastq -S out.local.sam --local`
-`
-147354 reads; of these:
 
-  147354 (100.00%) were unpaired; of these:
+- Results: 
+    147354 reads; of these:
+
+    147354 (100.00%) were unpaired; of these:
 
     6310 (4.28%) aligned 0 times
 
@@ -56,36 +56,35 @@
 
     56105 (38.07%) aligned >1 times
 
-95.72% overall alignment rate
-`
+    95.72% overall alignment rate
+
 Then do:
-`
-# SAM to BAM
 
-samtools view -bT wu_0.v7.fas out.full.sam > out.full.bam
+- SAM to BAM
 
-samtools view -bT wu_0.v7.fas out.local.sam > out.local.bam
+`samtools view -bT wu_0.v7.fas out.full.sam > out.full.bam`
 
-
-# Sort BAM
-
-samtools sort out.full.bam -o out.full.sorted.bam
-
-samtools sort out.local.bam -o out.local.sorted.bam
+`samtools view -bT wu_0.v7.fas out.local.sam > out.local.bam`
 
 
-# Index BAM
+- Sort BAM
 
-samtools index out.full.sorted.bam
+`samtools sort out.full.bam -o out.full.sorted.bam`
 
-samtools index out.local.sorted.bam
-`
+`samtools sort out.local.bam -o out.local.sorted.bam`
+
+
+- Index BAM
+
+`samtools index out.full.sorted.bam`
+
+`samtools index out.local.sorted.bam`
 
 ### 9. How many reads were mapped in the scenario in Question 7?
 
 ### 10. How many reads were mapped in the scenario in Question 8?
 
-- Same to the Q8 & Q9
+- Same to the Q7 & Q8
 
 
 ### 11. How many reads had multiple matches in the scenario in Question 7? 
@@ -98,14 +97,14 @@ samtools index out.local.sorted.bam
 
 ### 13. How many alignments contained insertions and/or deletions, in the scenario in Question 7?
 
-- Use CIGAR sections to solve this:
+- Use **CIGAR** sections to solve this:
 
 `$ cat out.full.sam | grep -v '^#' | cut -f6 | grep 'D' | wc -l`
 
 
 `$ cat out.full.sam | grep -v '^#' | cut -f6 | grep 'I' | wc -l`
 
-`$ cat out.full.sam | grep -v '^#' | cut -f6 | grep 'D' | grep 'I' | wc -l
+`$ cat out.full.sam | grep -v '^#' | cut -f6 | grep 'D' | grep 'I' | wc -l`
 
 - line1 + line2 - line3
 
@@ -165,6 +164,7 @@ samtools index out.local.sorted.bam
 `$ bcftools call -m -v -O v out.full.mpileup.bcf > out.local.vcf`
 
 - Then count the 'Chr3'
+
 `$ cat out.full.vcf | grep -v '^#' | cut -f1 | grep 'Chr3' | wc -l`
 
 ### 21. How many variants represent an A->T SNP? If useful, you can use ‘grep –P’ to allow tabular spaces in the search term.
