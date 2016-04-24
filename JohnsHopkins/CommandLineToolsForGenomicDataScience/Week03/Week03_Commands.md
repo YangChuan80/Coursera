@@ -13,15 +13,19 @@
 
 ### 4. How many index files did the operation create?
 
+##### $ bowtie2-build [reference_fasta_file.fasta] [index_file]
+
 `$ mkdir idx`
 
-`$ **bowtie2-build wu_0.v7.fas idx/wu_0_idx**`
+`$ bowtie2-build wu_0.v7.fas idx/wu_0_idx`
 
 ### 6. How many reads were in the original fastq file?
 
 `$ more wu_0_A_wgs.fastq | wc -l`
 
 ### 7. How many matches (alignments) were reported for the original (full-match) setting? Exclude lines in the file containing unmapped reads.
+
+##### $ bowtie2 -p 4 -x [fasta_index_file] -U [in.fastq] -S [out.sam]
 
 `$ bowtie2 -p 4 -x idx/wu_0_idx -U wu_0_A_wgs.fastq -S out.full.sam`
 
@@ -62,6 +66,8 @@ Then do:
 
 - SAM to BAM
 
+##### $ samtools view -bT [reference_fasta_file.fasta] [in.sam] > [out.bam]
+
 `samtools view -bT wu_0.v7.fas out.full.sam > out.full.bam`
 
 `samtools view -bT wu_0.v7.fas out.local.sam > out.local.bam`
@@ -69,12 +75,16 @@ Then do:
 
 - Sort BAM
 
+##### $ samtools sort [original.bam] -o [sorted.bam]
+
 `samtools sort out.full.bam -o out.full.sorted.bam`
 
 `samtools sort out.local.bam -o out.local.sorted.bam`
 
 
 - Index BAM
+
+##### $ samtools index [sorted.bam]
 
 `samtools index out.full.sorted.bam`
 
@@ -121,6 +131,8 @@ Then do:
 
 ### 15. How many entries were reported for Chr3?
 - Perform M Pile Up
+##### $ samtools mpileup -f [reference.fasta] -uv [sorted_indexed.bam] > [candidate_entry_vcf_file.vcf]
+###### Above is the candidate variant vcf file.
 
 `$ samtools mpileup -f wu_0.v7.fas -uv out.full.sorted.bam > out.full.mpileup.vcf`
 
@@ -150,6 +162,8 @@ Then do:
 
 - First, we should build BCF file.
 - Second, we use BCFTools call to generate a variant VCF file.
+- 
+###### $ samtools mpileup -f [reference.fast] -g [sorted_indexed.bam] > [variant.bcf]
 
 `$ # Build BCF`
 
@@ -158,6 +172,8 @@ Then do:
 `$ samtools mpileup -f wu_0.v7.fas -g out.local.sorted.bam > out.local.mpileup.bcf`
 
 `$ # Call Variants`
+
+##### $ bcftools call -m -v -O v [variant.bcf] > [variant_call_format_file.vcf]
 
 `$ bcftools call -m -v -O v out.full.mpileup.bcf > out.full.vcf`
 
