@@ -131,8 +131,10 @@ Then do:
 
 ### 15. How many entries were reported for Chr3?
 - Perform M Pile Up
+
 > $ **samtools mpileup -f**  [reference.fasta]  **-uv**  [sorted_indexed.bam]  **>**  [candidate_entry_vcf_file.vcf]
-###### Above is the candidate variant vcf file.
+
+- Above is the candidate variant vcf file.
 
 `$ samtools mpileup -f wu_0.v7.fas -uv out.full.sorted.bam > out.full.mpileup.vcf`
 
