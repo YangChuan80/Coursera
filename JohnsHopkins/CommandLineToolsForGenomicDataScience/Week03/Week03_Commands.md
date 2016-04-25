@@ -84,7 +84,7 @@ Then do:
 
 - Index BAM
 
- $ **samtools index** [sorted.bam]
+> $ **samtools index** [sorted.bam]
 
 `samtools index out.full.sorted.bam`
 
